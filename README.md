@@ -1,63 +1,153 @@
-# CodeIgniter 4 Application Starter
+# Tutorial: Deploying a basic CodeIgniter app on Jekyo
 
-## What is CodeIgniter?
+Demo app [here](https://codeigniter-demo.jekyo.app/)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
+### Prerequisites
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Make sure you have [NodeJS](https://nodejs.org/en/download/), [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [git](https://github.com/git-guides/install-git) installed.
 
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
+If it's your first time using **Jekyo**, you can **install** it by running the following command in your terminal:
 
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+`npm install -g jekyo`
 
-## Installation & updates
+### Sign in to Jekyo
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+You can sign in to Jekyo by running `jekyo user:signin`
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+```
+➜  ~ jekyo user:signin 
+Your email?: **************
+Your password?: **********
+You have successfully signed in!
+```
+If you don't have a Jekyo account, you can create one in the terminal by running `jekyo user:signup`. 
 
-## Setup
+## 1. Create a basic CodeIgniter app
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+You can start your CodeIgniter project by using `jekyo create`
 
-## Important Change with index.php
+Using the **arrows** on your keyboard, select **codeigniter** and press **enter**.  
+```
+? Select template
+  None Creates only the application
+  expressjs A basic app skeleton using [Express](https://expressjs.com/)     
+  nuxt-js A boilerplate SSR application using [Nuxt.js](https://nuxtjs.org/) 
+❯ codeigniter A basic starter app using [CodeIgniter](https://codeigniter.com/)
+```
+When prompted, enter the desired name for your CodeIgniter app. 
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+`Application name?: codeigniter-tutorial`
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+This will create a basic CodeIgniter app in the current directory by cloning this [CodeIgniter starter app](https://github.com/jekyo/codeigniter-getting-started) repository.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+```
+Cloning source code... OK
+Application created!
+```
 
-## Repository Management
+### Deploy the CodeIgniter app on Jekyo
 
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+To deploy the app, first navigate to the newly created directory:
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+`cd codeigniter-tutorial`
 
-## Server Requirements
+Now you can deploy this app to Jekyo by running: 
 
-PHP version 7.3 or higher is required, with the following extensions installed:
+`jekyo deploy`
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+After a while, you should see something like this:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```
+➜  Fetching source code ... OK
+➜  Building application, this might take a while ... OK
+➜  Publishing application, this might take a while  ... OK
+➜  Deploying application ... OK        
+➜  Waiting for application to start ... OK
+➜  Visit your app on: https://codeigniter-tutorial.jekyo.app ... OK
+```
 
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+You can now browse to your CodeIgniter app on https://codeigniter-tutorial.jekyo.app (replace 'codeigniter-tutorial' with your app name)
+
+## 2. Deploying an existing CodeIgniter app
+
+Navigate to your local CodeIgniter app directory
+
+`cd my-codeigniter-app`
+
+### Create a Procfile
+
+In the root directory of your app, create a file named `Procfile` (no extension), and add the following line:
+
+```
+web: vendor/bin/heroku-php-apache2 public/
+```
+
+This will start the app in production mode using Apache. 
+
+### Commit changes
+
+```
+git add Procfile
+git commit -m "your commit message"
+```
+If you are not in a git repository, please run: 
+
+```
+git init
+git add .
+git commit -m "your commit message"
+```
+
+### Create an empty Jekyo app:
+
+`jekyo create` 
+
+Select 'none' using the **arrows** on your keyboard and press **enter**. This will create an app using your current directory. 
+
+```
+? Select template (Use arrow keys)
+❯ None Creates an application from your current directory
+```
+
+Name your app: 
+
+`Application name?: my-codeigniter-app`
+
+Run `jekyo link` to link your local app to the remote Jekyo app. Select 'my-codeigniter-app' using the **arrows** on your keyboard and press **enter**.
+
+```
+? Select application (Use arrow keys)
+❯ my-codeigniter-app
+```
+### Now you can deploy this app to Jekyo by running: 
+
+`jekyo deploy`
+
+After a while, you should see something like this:
+
+```
+➜  Fetching source code ... OK
+➜  Building application, this might take a while ... OK
+➜  Publishing application, this might take a while  ... OK
+➜  Deploying application ... OK        
+➜  Waiting for application to start ... OK
+➜  Visit your app on: https://my-codeigniter-app.jekyo.app ... OK
+```
+
+You can now browse to your CodeIgniter app on https://my-codeigniter-app.jekyo.app (replace 'my-codeigniter-app' with your app name)
+
+## Pushing local changes to Jekyo 
+
+Add the newly modified file(s) to the git index by using [git add](https://www.atlassian.com/git/tutorials/saving-changes)
+
+`git add filename`
+
+Create a [git commit](https://github.com/git-guides/git-commit)
+
+`git commit -m "your commit message"`
+
+Now, simply deploy your app again:
+
+`jekyo deploy`
+
+You will see your changes on your live app after a short while. 
