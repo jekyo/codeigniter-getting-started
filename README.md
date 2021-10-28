@@ -82,7 +82,7 @@ In the root directory of your app, create a file named `Procfile` (no extension)
 web: vendor/bin/heroku-php-apache2 public/
 ```
 
-This will start the app in production mode using Apache. 
+This will ensure the app will start in production mode using Apache. 
 
 ### Commit changes
 
